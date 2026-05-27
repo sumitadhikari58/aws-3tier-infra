@@ -41,8 +41,10 @@
 ---
 
 ## 🚧 Coming Soon
-- [ ] Application Load Balancer
-- [ ] Auto Scaling Group
+- [x] Application Load Balancer
+- [x] Target Group with health check
+- [x] NAT Gateway
+- [x] Auto Scaling Group
 - [ ] Docker + ECR
 - [ ] Node.js REST API
 - [ ] RDS PostgreSQL
