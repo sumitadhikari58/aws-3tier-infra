@@ -1,3 +1,27 @@
+# AWS 3-Tier Infrastructure — URL Shortener
+
+> A production-grade cloud infrastructure built from scratch on AWS.
+> Designed for scalability, security, and zero-downtime deployments.
+
+---
+
+## 🎯 Project Goals
+- Simulate a real-world production deployment on AWS
+- Apply industry-standard security practices (private subnets, least privilege)
+- Automate everything — infrastructure as code, CI/CD, monitoring
+- Build something interviewers actually want to see
+
+---
+
+## ⚡ Key Features
+- **Highly Available** — Multi-AZ deployment, no single point of failure
+- **Auto Scaling** — Scales out under load, scales in when idle
+- **Zero Direct Exposure** — App servers have no public IP, only ALB is internet-facing
+- **Infrastructure as Code** — Entire AWS setup reproducible with one Terraform command
+- **Automated Deploys** — Push to main → Docker build → ECR push → live in minutes
+- **Caching Layer** — Redis sits in front of DB, repeated lookups never hit PostgreSQL
+- **Secure by Design** — Every security group follows least privilege principle
+
 ---
 
 ## 🛠️ Tech Stack
@@ -14,41 +38,76 @@
 
 ---
 
+## 🏗️ Architecture
+Internet
+│
+▼
+Application Load Balancer (public subnet)
+│
+▼
+Auto Scaling Group — EC2 + Docker (private subnet)
+│
+├──▶ RDS PostgreSQL (private subnet)
+└──▶ ElastiCache Redis (private subnet)
+Developer Access:
+Laptop → Bastion Host (public) → Private EC2
+---
+
+## 🔒 Security Design
+- App servers in private subnet — no public IP, no direct internet access
+- ALB is the only public-facing component
+- SSH locked to developer IP only via security groups
+- DB and cache accessible only from app tier security group
+- NAT Gateway for outbound-only internet access from private subnet
+- Principle of least privilege on every security group
+
+---
+
 ## 📅 Build Progress
 
 ### Day 1 — VPC & Networking
 - Created VPC with CIDR `10.0.0.0/16`
-- 2 public subnets + 2 private subnets across 2 availability zones
+- 2 public subnets + 2 private subnets across 2 AZs (ap-south-1a, ap-south-1b)
 - Internet Gateway attached to public subnets
 - Route tables configured per subnet
 - Security groups with least privilege access
 
 ### Day 2 — Compute & Access Control
-- Bastion Host deployed in public subnet (SSH locked to single IP)
-- Private EC2 instance deployed with no public IP
-- SSH jump configured: `laptop → Bastion → Private EC2`
+- Bastion Host deployed in public subnet (SSH locked to single IP `/32`)
+- Private EC2 launched with no public IP
+- SSH jump working: `laptop → Bastion → Private EC2`
 - Verified private subnet has zero inbound internet access
-- Security group on private EC2 allows SSH from Bastion SG only
+
+### Day 3 — Load Balancer & NAT Gateway
+- Application Load Balancer created in public subnets across 2 AZs
+- Target Group configured with `/health` health check
+- NAT Gateway added — private EC2 can now make outbound requests
+- Private route table updated with `0.0.0.0/0 → NAT Gateway`
+- Node.js 20 installed on private EC2
+
+### Day 4 — Application Layer
+- Express app deployed on private EC2
+- `/health` endpoint returning `{ status: "ok" }`
+- Private EC2 registered in Target Group
+- ALB routing verified end to end via curl
 
 ---
 
-## 🔒 Security Highlights
-- App servers never directly exposed to internet
-- SSH access restricted to single IP via security groups
-- Private subnets isolated from inbound internet traffic
-- Principle of least privilege applied to all security groups
-
----
-
-## 🚧 Coming Soon
+## ✅ Completed
+- [x] VPC + Networking
+- [x] Bastion Host + Private EC2
 - [x] Application Load Balancer
 - [x] Target Group with health check
 - [x] NAT Gateway
-- [x] Auto Scaling Group
+- [x] Express app on private EC2
+- [x] ALB routing verified end to end
+
+## 🚧 In Progress
 - [ ] Docker + ECR
-- [ ] Node.js REST API
+- [ ] Full URL shortener API (POST /shorten, GET /:code)
 - [ ] RDS PostgreSQL
 - [ ] ElastiCache Redis
 - [ ] Terraform (full IaC)
+- [ ] Auto Scaling Group
 - [ ] GitHub Actions CI/CD
 - [ ] CloudWatch monitoring
