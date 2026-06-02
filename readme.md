@@ -91,6 +91,11 @@ Laptop → Bastion Host (public) → Private EC2
 - Private EC2 registered in Target Group
 - ALB routing verified end to end via curl
 
+### Day 5 — Docker
+- Dockerfile written with Alpine base
+- Image built and container running on private EC2
+- ALB routing verified through Docker container
+
 ---
 
 ## ✅ Completed
@@ -101,9 +106,10 @@ Laptop → Bastion Host (public) → Private EC2
 - [x] NAT Gateway
 - [x] Express app on private EC2
 - [x] ALB routing verified end to end
+- [x] Docker
 
 ## 🚧 In Progress
-- [ ] Docker + ECR
+- [ ] ECR
 - [ ] Full URL shortener API (POST /shorten, GET /:code)
 - [ ] RDS PostgreSQL
 - [ ] ElastiCache Redis
