@@ -96,6 +96,11 @@ Laptop → Bastion Host (public) → Private EC2
 - Image built and container running on private EC2
 - ALB routing verified through Docker container
 
+### Day 6 — ECR
+- AWS CLI installed and configured on private EC2
+- Docker image tagged and pushed to ECR
+- Image available at 108209429292.dkr.ecr.ap-south-1.amazonaws.com/url-shortener:latest
+
 ---
 
 ## ✅ Completed
@@ -107,9 +112,9 @@ Laptop → Bastion Host (public) → Private EC2
 - [x] Express app on private EC2
 - [x] ALB routing verified end to end
 - [x] Docker
+- [x] ECR — Docker image pushed
 
 ## 🚧 In Progress
-- [ ] ECR
 - [ ] Full URL shortener API (POST /shorten, GET /:code)
 - [ ] RDS PostgreSQL
 - [ ] ElastiCache Redis
