@@ -101,6 +101,13 @@ Laptop → Bastion Host (public) → Private EC2
 - Docker image tagged and pushed to ECR
 - Image available at 108209429292.dkr.ecr.ap-south-1.amazonaws.com/url-shortener:latest
 
+### Day 7 — Auto Scaling Group
+- Launch Template created with User Data script
+- ASG configured: min 1, max 3, desired 1
+- CPU > 70% triggers scale out
+- Fixed NAT Gateway route for private subnet ap-south-1b
+- ASG auto-recovery verified — terminated instance replaced automatically
+
 ---
 
 ## ✅ Completed
@@ -113,12 +120,13 @@ Laptop → Bastion Host (public) → Private EC2
 - [x] ALB routing verified end to end
 - [x] Docker
 - [x] ECR — Docker image pushed
+- [x] Auto Scaling Group
+- [x] Launch Template with User Data
 
 ## 🚧 In Progress
 - [ ] Full URL shortener API (POST /shorten, GET /:code)
 - [ ] RDS PostgreSQL
 - [ ] ElastiCache Redis
 - [ ] Terraform (full IaC)
-- [ ] Auto Scaling Group
 - [ ] GitHub Actions CI/CD
 - [ ] CloudWatch monitoring
