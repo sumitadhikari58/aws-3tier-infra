@@ -1,27 +1,21 @@
 #!/bin/bash
 set -eux
 
-# Install Docker, build the image (if files present), and run the container
 apt-get update -y
-apt-get install -y docker.io
-systemctl enable --now docker
+apt-get install -y docker.io awscli
 
-# Add ubuntu user to docker group if present
-if id ubuntu >/dev/null 2>&1; then
-  usermod -aG docker ubuntu || true
-fi
+systemctl start docker
+systemctl enable docker
 
-APP_DIR=/home/ubuntu/url-shortener
-mkdir -p "$APP_DIR"
-chown ubuntu:ubuntu "$APP_DIR" || true
+export AWS_DEFAULT_REGION=ap-south-1
 
-if [ -f "$APP_DIR/Dockerfile" ]; then
-  cd "$APP_DIR"
-  docker build -t url-shortener:latest .
-  docker rm -f url-shortener || true
-  docker run -d --restart unless-stopped -p 80:3000 --name url-shortener url-shortener:latest
-else
-  echo "No Dockerfile found in $APP_DIR; nothing to build" >&2
-fi
+# Login to ECR and pull the image
+aws ecr get-login-password --region ap-south-1 | docker login --username AWS --password-stdin 108209429292.dkr.ecr.ap-south-1.amazonaws.com
+
+docker pull 108209429292.dkr.ecr.ap-south-1.amazonaws.com/url-shortener:latest
+
+# Remove any existing container, then run the new one
+docker rm -f url-shortener || true
+docker run -d --restart unless-stopped -p 80:80 --name url-shortener 108209429292.dkr.ecr.ap-south-1.amazonaws.com/url-shortener:latest
 
 exit 0
