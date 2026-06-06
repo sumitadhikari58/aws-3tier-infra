@@ -108,6 +108,14 @@ Laptop → Bastion Host (public) → Private EC2
 - Fixed NAT Gateway route for private subnet ap-south-1b
 - ASG auto-recovery verified — terminated instance replaced automatically
 
+### Day 8 — ASG Fixed
+- Debugged User Data script failures
+- Fixed NAT Gateway route for ap-south-1b
+- IAM Role attached for ECR authentication
+- Fixed TTY pipe issue with docker login
+- ASG now auto-launches instances with Docker container running
+- ALB routing verified end to end
+
 ---
 
 ## ✅ Completed
