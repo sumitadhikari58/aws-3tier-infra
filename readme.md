@@ -116,6 +116,12 @@ Laptop → Bastion Host (public) → Private EC2
 - ASG now auto-launches instances with Docker container running
 - ALB routing verified end to end
 
+### Day 9 — Docker Compose
+- Added docker-compose.yml with 3 services: app, PostgreSQL, Redis
+- PostgreSQL and Redis containers running successfully
+- App container debugging in progress (route handler fix)
+- All services connected on same Docker network
+
 ---
 
 ## ✅ Completed
@@ -130,11 +136,11 @@ Laptop → Bastion Host (public) → Private EC2
 - [x] ECR — Docker image pushed
 - [x] Auto Scaling Group
 - [x] Launch Template with User Data
+- [x] PostgreSQL (Docker container)
+- [x] Redis (Docker container)
 
 ## 🚧 In Progress
 - [ ] Full URL shortener API (POST /shorten, GET /:code)
-- [ ] RDS PostgreSQL
-- [ ] ElastiCache Redis
 - [ ] Terraform (full IaC)
 - [ ] GitHub Actions CI/CD
 - [ ] CloudWatch monitoring
