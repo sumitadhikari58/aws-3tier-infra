@@ -8,9 +8,17 @@ const shortCode = Math.random().toString(36).substring(2, 8);
 urlMap[shortCode] = longUrl;
 res.json({ shortCode: shortCode });
 });
-
 app.get('/health', (req, res) => {
   res.json({ status: "ok" });
+});
+app.get('/:code', (req, res) => {
+  let { code } = req.params;
+  let orgurl = urlMap[code];
+  if (orgurl) {
+    res.redirect(orgurl);
+  } else {
+    res.status(404).json({ error: "url not found" });
+  }
 });
 
 app.listen(80, () => {
