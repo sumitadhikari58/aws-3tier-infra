@@ -122,6 +122,11 @@ Laptop → Bastion Host (public) → Private EC2
 - App container debugging in progress (route handler fix)
 - All services connected on same Docker network
 
+### Day 10 — URL Shortener API Complete
+- POST /shorten — generates short code, stores mapping
+- GET /:code — redirects to original URL
+- GET /health — ALB health check
+- Full flow tested end to end via ALB DNS
 ---
 
 ## ✅ Completed
@@ -138,9 +143,9 @@ Laptop → Bastion Host (public) → Private EC2
 - [x] Launch Template with User Data
 - [x] PostgreSQL (Docker container)
 - [x] Redis (Docker container)
+- [x] Full URL shortener API
 
 ## 🚧 In Progress
-- [ ] Full URL shortener API (POST /shorten, GET /:code)
 - [ ] Terraform (full IaC)
 - [ ] GitHub Actions CI/CD
 - [ ] CloudWatch monitoring
