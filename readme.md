@@ -127,6 +127,14 @@ Laptop → Bastion Host (public) → Private EC2
 - GET /:code — redirects to original URL
 - GET /health — ALB health check
 - Full flow tested end to end via ALB DNS
+
+### Day 11 — GitHub Actions CI/CD
+- Created .github/workflows/deploy.yml
+- Pipeline: checkout → AWS credentials → ECR login → Docker build → push to ECR → deploy to EC2
+- CI steps passing — build and push to ECR working
+- CD step pending — waiting for EC2 vCPU limit increase
+- GitHub Secrets configured: AWS keys, Bastion IP, SSH key
+
 ---
 
 ## ✅ Completed
@@ -144,8 +152,7 @@ Laptop → Bastion Host (public) → Private EC2
 - [x] PostgreSQL (Docker container)
 - [x] Redis (Docker container)
 - [x] Full URL shortener API
-
+- [x] Terraform (full IaC)
+- [x] GitHub Actions CI/CD (partial — deploy step pending EC2)
 ## 🚧 In Progress
-- [ ] Terraform (full IaC)
-- [ ] GitHub Actions CI/CD
 - [ ] CloudWatch monitoring
